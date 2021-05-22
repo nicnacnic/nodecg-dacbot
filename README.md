@@ -96,6 +96,7 @@ See [Bugs](https://github.com/nicnacnic/DACBot/blob/main/README.md#bugs) below. 
 
 ## Bugs
 - DACBot will **not** work if a user is connecting from the browser. It only works on desktop/mobile. It will crash the bot so don't attempt it. This appears to be a limitation with Discord.JS, the library used to write the bot.
+- Don't move DACBot into another VC with users, it will cause the stream to echo. Instead disconnect the bot then reconnect it in the new channel.
 
 ## Contributing
 If you have any suggestions or bugfixes, please submit a pull request! Before you do, please make sure you **test your code** to make sure the bot works correctly with your new changes.
