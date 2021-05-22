@@ -36,19 +36,22 @@ Here you can customize the username and avatar of your bot. The username/avatar 
 
 ![image](https://user-images.githubusercontent.com/39160563/118413018-2dbc4080-b66b-11eb-8fd5-fd4ac103451b.png)
 
-Download the latest [release](https://github.com/nicnacnic/DACBot/releases). Put all the files somewhere on your computer that you can easily navigate to. Make sure to run `npm install` in your Command Prompt to install the required dependencies. Then, open `config.json`.
+In Command Prompt, run `nodecg install nicnacnic/nodecg-dacbot` in your root NodeCG folder. Then, open `config.json`.
 
-Next to `token`, paste your bot token that you obtained earlier.  
+Next to `botToken`, paste your bot token that you obtained earlier.  
 Next to `roleID`, paste a role ID that a user must have to control the bot. If a user does not have the role specified, they won't be able to control the bot.  
-Next to `device`, paste the name of the output device you want your bot to stream audio to. Leave blank for the default device. Included with the bot is a tool to list all available devices, you can run it by typing `node find_devices.js` in a command prompt window.
+Next to `outputDevice`, paste the name of the output device you want your bot to stream audio to. Leave blank for the default device. Included with the bot is a tool to list all available devices, you can run it by typing `node find_devices.js` in a command prompt window.
 
 ```json
 {
-        "token": "<paste_bot_token_here>",
-	"roleID": "570634225125163029",
-	"device": "Soundboard (Steam Streaming Microphone)"
+    "botToken": "<bot_token>",
+    "roleID": "<role_id>",
+    "outputDevice": "<device_name>",
+    "hideMutedUsers": true
 }
 ```
+
+If you would like to hide users that are muted in the overlay, set `hideMutedUsers` to true.
 
 Back in the [Discord Developer Portal](https://discord.com/developers/applications), go back to the `General Information` page. Then copy your application ID, this is how you'll invite your bot.
 
@@ -61,7 +64,7 @@ On the page, select your server, then click `Authorize`. You might need to sign 
 
 ![image](https://user-images.githubusercontent.com/39160563/118413363-f3ec3980-b66c-11eb-9587-22c44311019c.png)
 
-Finally navigate to your bot's folder in Command Prompt and type `node index.js` to start your bot. 
+Finally type `nodecg start` in your root NodeCG folder to start your bot. 
 
 ![image](https://user-images.githubusercontent.com/39160563/118413388-1da56080-b66d-11eb-9cc5-35a0ed6c5434.png)
 
@@ -75,7 +78,7 @@ Once the bot has started, enter a voice channel, then ping the bot with the `con
 ![image](https://user-images.githubusercontent.com/39160563/118412498-63abf580-b668-11eb-962b-9467ffc3a173.png)
 
 ### Using in Multiple Voice Channels
-Currently, DACBot only supports audio capture in one voice channel at a time. But what if you want to capture audio from multiple voice channels? All you have to do is to setup multiple instances of DACBot, with different bots assigned for each instance. The command system ensures you're always pinging the right bot.
+Currently, nodecg-dacbot only supports audio capture in one voice channel at a time. If you would like to capture audio from multiple channels, use reguler [DACBot](https://github.com/nicnacnic/DACBot).
 
 ## Troubleshooting
 **The audio is off-pitch!**
@@ -93,6 +96,9 @@ Are you sure you're typing in the command correctly? Available commands are `con
 **The bot crashes when speaking from my browser!**
 
 See [Bugs](https://github.com/nicnacnic/DACBot/blob/main/README.md#bugs) below. Due to an issue with Discord.JS, only desktop/mobile is supported at the moment. Hopefully this gets fixed soon, but for the meantime make sure you're using deskop/mobile only.
+
+**There's an echo!**
+This is caused by moving DACBot into a channel with other users. Disconnect and reconnect the bot instead to avoid this issue. You can also restart NodeCG to fix it.
 
 ## Bugs
 - DACBot will **not** work if a user is connecting from the browser. It only works on desktop/mobile. It will crash the bot so don't attempt it. This appears to be a limitation with Discord.JS, the library used to write the bot.
