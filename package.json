@@ -1,0 +1,40 @@
+{
+  "name": "nodecg-dacbot",
+  "version": "1.0.0",
+  "description": "A bot to capture and stream Discord voice channel audio to a specified device.",
+  "homepage": "https://github.com/nicnacnic/nodecg-dacbot",
+  "author": "nicnacnic",
+  "url": "https://nicnacnic.com",
+  "license": "MIT",
+  "nodecg": {
+    "compatibleRange": "^1.6.0",
+    "dashboardPanels": [
+      {
+        "name": "discord",
+        "title": "Discord",
+        "file": "discord.html",
+        "width": 3
+      }
+    ],
+    "graphics": [
+      {
+        "file": "vc-users.html",
+        "width": 300,
+        "height": 1000
+      }
+    ]
+  },
+  "dependencies": {
+    "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-slider": "^3.0.1",
+    "@polymer/polymer": "^3.4.1",
+    "audio-mixer": "^2.1.4",
+    "discord.js": "^12.5.3",
+    "naudiodon": "^2.3.4",
+    "speaker": "github:nacgarg/node-speaker"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "rollup": "^2.48.0"
+  }
+}

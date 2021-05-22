@@ -1,0 +1,39 @@
+/* Font settings. */
+@font-face {
+	font-family: 'Whitney Medium';
+	src: url('../fonts/Whitney-Medium.ttf');
+}
+
+/* General Settings. */
+#main {
+	font-family: 'Whitney Medium';
+	font-weight: 600;
+	font-size: 14pt;
+	color: #f9f9f9;
+	width: 300px;
+}
+.div {
+	width: 300px;
+	height: 62px;
+	display: inline-block;
+}
+.userImage {
+	margin-left: 3px;
+	margin-top: 3px;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	display: inline-block;
+	
+	border-style: solid;
+	border-width: 3px;
+}
+.userName {
+	position: absolute;
+	height: 62px;
+	line-height: 62px;
+	left: 70px;
+	margin-top: 3px;
+	vertical-align: middle;
+	display: inline-block;
+}

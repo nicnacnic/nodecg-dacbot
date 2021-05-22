@@ -1,0 +1,70 @@
+{
+    "$id": "http://example.com/example.json",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "default": {
+        "botToken": "<bot_token>",
+        "roleID": "<role_id>",
+        "outputDevice": "<device_name>",
+        "hideMutedUsers": true
+    },
+    "description": "The root schema comprises the entire JSON document.",
+    "examples": [
+        {
+            "botToken": "<bot_token>",
+            "roleID": "<role_id>",
+            "outputDevice": "<device_name>",
+            "hideMutedUsers": true
+        }
+    ],
+    "required": [
+        "botToken",
+        "roleID",
+        "outputDevice",
+        "hideMutedUsers"
+    ],
+    "title": "The root schema",
+    "type": "object",
+    "properties": {
+        "botToken": {
+            "$id": "#/properties/botToken",
+            "type": "string",
+            "title": "The botToken schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "<bot_token>"
+            ]
+        },
+        "roleID": {
+            "$id": "#/properties/roleID",
+            "type": "string",
+            "title": "The roleID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "<role_id>"
+            ]
+        },
+        "outputDevice": {
+            "$id": "#/properties/outputDevice",
+            "type": "string",
+            "title": "The outputDevice schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "<device_name>"
+            ]
+        },
+        "hideMutedUsers": {
+            "$id": "#/properties/hideMutedUsers",
+            "type": "boolean",
+            "title": "The hideMutedUsers schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                true
+            ]
+        }
+    },
+    "additionalProperties": true
+}
