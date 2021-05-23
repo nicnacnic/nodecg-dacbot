@@ -8,14 +8,6 @@
   "license": "MIT",
   "nodecg": {
     "compatibleRange": "^1.6.0",
-    "dashboardPanels": [
-      {
-        "name": "discord",
-        "title": "Discord",
-        "file": "discord.html",
-        "width": 3
-      }
-    ],
     "graphics": [
       {
         "file": "vc-users.html",
