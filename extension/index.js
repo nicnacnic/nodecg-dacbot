@@ -208,7 +208,7 @@ module.exports = function (nodecg) {
 		}
 
 		silence = setInterval(function () {
-			connection.play(fs.createReadStream('./bundles/nodecg-dacbot/sounds/silence.ogg'), { type: 'ogg/opus', volume: 0.1 });
+			connection.play(fs.createReadStream('./bundles/nodecg-dacbot/sounds/silence.wav'));
 		}, 270000)
 
 		nodecg.log.info('Capture started for channel ' + connection.channel.name + ' on ' + Date());
