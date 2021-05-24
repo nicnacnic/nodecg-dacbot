@@ -1,13 +1,14 @@
 const fs = require('fs');
+const Discord = require('discord.js');
 const Speaker = require('speaker');
 const AudioMixer = require('audio-mixer')
-const Discord = require('discord.js');
 const command = require('./commands');
 
-let silence, connection, guild, mixer, speaker;
+let silence, connection, mixer, speaker;
 
 module.exports = function (nodecg) {
 
+	let currentMembers = [];
 	const memberList = nodecg.Replicant('memberList', { persistent: false });
 	const addMember = nodecg.Replicant('addMember', { persistent: false });
 	const removeMember = nodecg.Replicant('removeMember', { persistent: false });
@@ -17,7 +18,6 @@ module.exports = function (nodecg) {
 	removeMember.value = null;
 	changeMute.value = null;
 	speaking.value = null;
-	let currentMembers = [];
 	memberList.value = [];
 	connection = undefined;
 
@@ -38,7 +38,7 @@ module.exports = function (nodecg) {
 		command(client, 'help', roleID, (message) => {
 			const helpEmbed = new Discord.MessageEmbed()
 				.setTitle("DACBot Help")
-				.setURL("https://github.com/nicnacnic/DACBot")
+				.setURL("https://github.com/nicnacnic/nodecg-DACBot")
 				.setDescription("Does someone need some help?")
 				.addField("Connecting to a Voice Channel", "<@" + client.user.id + "> connect\nThe bot will connect to the voice channel that the user is in and start capturing audio.")
 				.addField("Disconnecting from a Voice Channel", "<@" + client.user.id + "> disconnect\nThe bot will stop capturing audio and disconnect from the voice channel.")
@@ -53,9 +53,8 @@ module.exports = function (nodecg) {
 			if (connection !== undefined)
 				message.reply(`I\'m already in a voice channel! Please disconnect me first.`)
 			else if (message.member.voice.channel !== undefined && message.member.voice.channel !== null) {
-				guild = message.member.guild.id;
-				record(message.member.voice.channel.id);
 				message.channel.send('Connected to `' + message.member.voice.channel.name + '`.')
+				record(message.member.voice.channel.id);
 			}
 			else
 				message.reply(`you're not in a voice channel!`)
@@ -85,17 +84,13 @@ module.exports = function (nodecg) {
 		});
 
 		client.on('guildMemberSpeaking', (member, memberSpeaking) => {
-			for (let i = 0; i < currentMembers.length; i++) {
-				if (currentMembers[i].id === member.id) {
-					let speakState;
-					if (memberSpeaking.bitfield == 1)
-						speakState = true;
-					else
-						speakState = false;
-					speaking.value = null;
-					speaking.value = { id: member.id, speaking: speakState }
-				}
-			}
+			let speakState;
+			if (memberSpeaking.bitfield == 1)
+				speakState = true;
+			else
+				speakState = false;
+			speaking.value = null;
+			speaking.value = { id: member.id, speaking: speakState }
 		});
 
 		client.on('voiceStateUpdate', (oldMember, newMember) => {
@@ -108,14 +103,18 @@ module.exports = function (nodecg) {
 						volume: 100
 					});
 					currentMembers[i].audio.pipe(currentMembers[i].mixer);
-					let muteState;
+					let username, muteState;
+					if (newMember.member.nickname === null)
+						username = newMember.member.user.username;
+					else
+						username = newMember.member.nickname;
 					if (newMember.selfMute || newMember.selfDeaf || newMember.serverMute || newMember.serverDeaf)
 						muteState = true;
 					else
 						muteState = false;
 					addMember.value = null;
-					addMember.value = { id: newMember.id, name: newMember.member.user.username, avatar: newMember.member.user.displayAvatarURL(), muted: muteState };
-					memberList.value.push({ id: newMember.id, name: newMember.member.user.username, avatar: newMember.member.user.displayAvatarURL(), muted: muteState });
+					addMember.value = { id: newMember.id, name: username, avatar: newMember.member.user.displayAvatarURL(), muted: muteState };
+					memberList.value.push({ id: newMember.id, name: username, avatar: newMember.member.user.displayAvatarURL(), muted: muteState });
 				}
 				else if (oldMember.channelID === connection.channel.id && newMember.channelID !== connection.channel.id) {
 					for (let i = 0; i < currentMembers.length; i++) {
@@ -144,23 +143,15 @@ module.exports = function (nodecg) {
 							changeMute.value = null;
 							changeMute.value = { id: newMember.id, muted: muteState }
 
-							for (let i = 0; i < memberList.value.length; i++) {
-								if (memberList.value[i].id === newMember.id) {
-									memberList.value[i].muted = muteState;
-									break;
-								}
-							}
-							break;
+							memberList.value[i].muted = muteState;
 						}
 					}
 				}
 			}
-			else if (oldMember.id === client.user.id && oldMember.channelID !== null) {
-				if (newMember.channelID === null)
-					stopRecording(oldMember.channel.name);
-				else if (oldMember.channelID !== newMember.channelID && connection !== undefined) {
+			else if (connection !== undefined && oldMember.channelID !== null) {
+				stopRecording(oldMember.channel.name);
+				if (newMember.channelID !== null) {
 					let channelID = newMember.channelID;
-					stopRecording(oldMember.channel.name);
 					setTimeout(function () { record(channelID); }, 500);
 				}
 			}
@@ -185,6 +176,11 @@ module.exports = function (nodecg) {
 		if (client.channels.cache.get(channelID).members.size > 1) {
 			client.channels.cache.get(channelID).members.forEach((member) => {
 				if (member.user.id !== client.user.id) {
+					let username;
+					if (member.nickname === null)
+						username = member.user.username;
+					else
+						username = member.nickname;
 					currentMembers.push({ id: member.user.id, audio: '', mixer: '' });
 					let muteState;
 					if (member.voice.selfMute || member.voice.selfDeaf || member.voice.serverMute || member.voice.serverDeaf)
@@ -192,8 +188,8 @@ module.exports = function (nodecg) {
 					else
 						muteState = false;
 					addMember.value = null;
-					addMember.value = { id: member.user.id, name: member.user.username, avatar: member.user.displayAvatarURL(), muted: muteState };
-					memberList.value.push({ id: member.user.id, name: member.user.username, avatar: member.user.displayAvatarURL(), muted: muteState });
+					addMember.value = { id: member.user.id, name: username, avatar: member.user.displayAvatarURL(), muted: muteState };
+					memberList.value.push({ id: member.user.id, name: username, avatar: member.user.displayAvatarURL(), muted: muteState });
 				}
 			})
 			for (let i = 0; i < currentMembers.length; i++) {
@@ -203,16 +199,14 @@ module.exports = function (nodecg) {
 				});
 				currentMembers[i].audio.pipe(currentMembers[i].mixer);
 			}
-			connection.setSpeaking(0);
 			mixer.pipe(speaker);
 		}
 
 		silence = setInterval(function () {
-			connection.play(fs.createReadStream('./bundles/nodecg-dacbot/sounds/silence.wav'));
+			connection.play(fs.createReadStream('./bundles/nodecg-dacbot/utils/silence.wav'));
 		}, 270000)
 
 		nodecg.log.info('Capture started for channel ' + connection.channel.name + ' on ' + Date());
-		return;
 	}
 	function stopRecording(channelName) {
 		if (connection !== undefined) {
