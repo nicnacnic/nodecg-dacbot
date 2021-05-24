@@ -1,7 +1,7 @@
 {
   "name": "nodecg-dacbot",
   "version": "1.1.0",
-  "description": "A bot to capture and stream Discord voice channel audio to a specified device.",
+  "description": "A Discord bot to capture and stream voice channel audio to a specified audio device and show VC users.",
   "homepage": "https://github.com/nicnacnic/nodecg-dacbot",
   "author": "nicnacnic",
   "url": "https://nicnacnic.com",
@@ -11,7 +11,7 @@
     "graphics": [
       {
         "file": "vc-users.html",
-        "width": 300,
+        "width": 600,
         "height": 1000
       }
     ]
