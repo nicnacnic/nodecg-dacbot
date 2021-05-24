@@ -1,7 +1,7 @@
 # nodecg-dacbot
 A Discord bot to capture and stream voice channel audio to a specified audio device and show VC users.
 
-[![Release](https://img.shields.io/github/v/release/nicnacnic/nodecg-dacbot?label=Release)](https://github.com/nicnacnic/speedcontrol-layouts/releases)
+[![Release](https://img.shields.io/github/v/release/nicnacnic/nodecg-dacbot?label=Release)](https://github.com/nicnacnic/nodecg-dacbot/releases)
 ![License](https://img.shields.io/github/license/nicnacnic/nodecg-dacbot?label=License)
 [![Twitter](https://img.shields.io/twitter/follow/nicnacnic11?style=social)](https://twitter.com/nicnacnic11)
 [![Discord](https://img.shields.io/badge/-Join%20the%20Discord!-brightgreen?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/A34Qpfe)
