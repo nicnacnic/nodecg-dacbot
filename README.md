@@ -69,7 +69,7 @@ Once the bot has started, enter a voice channel, then ping the bot with the `con
 
 ![image](https://user-images.githubusercontent.com/39160563/118412498-63abf580-b668-11eb-962b-9467ffc3a173.png)
 
-To change a user's volume, ping the bot with the `volume` command. The syntax is `@DACBot volume <user> <volume>`, where user is a ping to the selected user and volume is a value between 1 and 200.
+To change a user's volume, ping the bot with the `volume` command. The syntax is `@DACBot volume <user> <volume>`, where user is a ping to the selected user and volume is a value between 1 and 100.
 
 ### Using in Multiple Voice Channels
 Currently, nodecg-dacbot only supports audio capture in one voice channel at a time. You can get around this by having two copies of the bundle, to do this make a copy of the `nodecg-dacbot` folder, rename it, then change the name in the bundles's `package.json`. If you did it correctly you can run two simultanious versions of DACBot, but you still need two different bot tokens.
